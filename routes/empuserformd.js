@@ -95,10 +95,49 @@ router.put('/updateclosedd/:id', async (req, res) => {
     }
 })
 
+// ROUTE 3.5: Find Active Status Count using: GET "/api/empuserformd/activecount".
+router.get('/activecount', async (req, res) => {
+
+    const totalActive = await Employeeform.find().or([{ employeeStatus: "Active" }]).countDocuments();
+    res.status(200).json(totalActive)
+
+})
+ 
+// ROUTE 3.6: Find Closed Status Count using: GET "/api/empuserformd/closedcount".
+router.get('/closedcount', async (req, res) => {
+
+    const totalClosed = await Employeeform.find().or([{ employeeStatus: "Closed" }]).countDocuments();
+    res.status(200).json(totalClosed)
+
+})
+
+// ROUTE 3.7: Find All Orders Count using: GET "/api/empuserformd/closedcount".
+router.get('/allordercount', async (req, res) => {
+
+    const totalOrder = await Employeeform.find().or([{}]).countDocuments();
+    res.status(200).json(totalOrder)
+
+})
 
 
+// ROUTE 3.8: Find Active Orders Count using: GET "/api/empuserformd/activeorders".
+router.get('/activeorders', async (req, res) => {
 
-// ROUTE 3.5: Delete a new Employeeform using: POST "/api/empuserformd/delete/:id". Login required
+
+    const totalActive = await Employeeform.find().or([{ employeeStatus: "Active" }])
+    res.status(200).json(totalActive)
+
+})
+
+// ROUTE 3.9: Find Closed Orders Count using: GET "/api/empuserformd/closedorders".
+router.get('/closedorders', async (req, res) => {
+
+
+    const totalActive = await Employeeform.find().or([{ employeeStatus: "Closed" }])
+    res.status(200).json(totalActive)
+
+})
+// ROUTE 3.10: Delete a new Employeeform using: POST "/api/empuserformd/delete/:id". Login required
 router.delete('/delete/:id', async (req, res) => {
 
     const id = req.params.id;
