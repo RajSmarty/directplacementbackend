@@ -2,96 +2,96 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const CodesSchema = new Schema({
-    user:{
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
-   
-    name:{
+
+    todaydate: {
         type: String,
     },
-    staffingmanager:{
+    staffingmanager: {
         type: String,
     },
-    selectposition:{
+    selectposition: {
         type: String,
     },
-    hourlybillingrate:{
+    hourlybillingrate: {
         type: String,
     },
-    companyname:{
+    propertyname: {
         type: String,
     },
-    phone:{
+    phone: {
         type: String,
     },
-    companyaddress:{
+    propertyaddress: {
         type: String,
     },
-    fax:{
-    type: String,
-    },
-    managernamewhoorderedtemp:{
+    fax: {
         type: String,
     },
-    manageremailaddress:{
+    managementcompanyname: {
         type: String,
     },
-    propertygrade:{
+    billingemailaddress: {
         type: String,
     },
-    numberofunits:{
+    managernamewhoorderedtemp: {
         type: String,
     },
-    bilingual:{
+    manageremailaddress: {
         type: String,
     },
-    software:{
+    propertygrade: {
         type: String,
     },
-    permanentpayrate:{
+    numberofunits: {
         type: String,
     },
-    taxcredit:{
+    bilingual: {
         type: String,
     },
-    typeofassignment:{
+    software: {
         type: String,
     },
-    epacertified:{
+    permanentpayrate: {
         type: String,
     },
-    tempname:{
+    taxcredit: {
         type: String,
     },
-    startdate:{
+    typeofassignment: {
         type: String,
     },
-    phoneno:{
+    epacertified: {
         type: String,
     },
-    enddate:{
+    tempname: {
         type: String,
     },
-    temporaraypayrate:{
+    startdate: {
         type: String,
     },
-    yourmessage:{
+    phoneno: {
         type: String,
     },
-    status:{
+    enddate: {
         type: String,
     },
-    date:{
+    temporaraypayrate: {
+        type: String,
+    },
+    yourmessage: {
+        type: String,
+    },
+    status: {
+        type: String,
+    },
+    date: {
         type: Date,
         default: Date.now
     },
-    avatar: {
-        type: String,
-    },
-    cloudinary_id: {
-        type: String,
-    }
-  });
+});
 
-  module.exports = mongoose.model('codes', CodesSchema);
+module.exports = mongoose.model('codes', CodesSchema);

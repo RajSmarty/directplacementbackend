@@ -19,13 +19,14 @@ app.use(express.json({limit: "30mb",extended:true}));
 
 
 // Available Routes
+app.use("/api/adminauth", require('./routes/adminauth'))
 app.use(require('./routes/auth'));
 app.use("/api/authd", require('./routes/authd'));
-app.use("/api/adminauth", require('./routes/adminauth'))
+app.use("/api/authark", require('./routes/authark'));
 app.use(require('./routes/codes'))
-// app.use("/api/img", require('./routes/images'))
 app.use("/api/empuserformh", require('./routes/empuserformh'))
 app.use("/api/empuserformd", require('./routes/empuserformd'))
+app.use("/api/empuserforma", require('./routes/empuserformark'))
 app.use('/api/items', require('./routes/items'))
 
 

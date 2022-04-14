@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const Employeeform = require('../models/Empformdallas');
+const Employeeform = require('../models/Empformark');
 
 
-// ROUTE 3.1: Add a new Employeeform using: POST "/api/empuserformd/insert". Login required
+// ROUTE 2.1: Add a new Employeeform using: POST "/api/empuserforma/insert". Login required
 router.post('/insert', async (req, res) => {
 
     const todaydate = req.body.todaydate;
@@ -31,23 +31,26 @@ router.post('/insert', async (req, res) => {
     const enddate = req.body.enddate;
     const temporaraypayrate = req.body.temporaraypayrate;
     const yourmessage = req.body.yourmessage;
-    // const empuserNameDallas = req.body.empuserNameDallas;
+    // const empuserName = req.body.empuserName;
     // const empUserPosition = req.body.empUserPosition;
-    // const empTempNameDallas = req.body.empTempNameDallas;
+    // const empTempName = req.body.empTempName;
     const employeeStatus = req.body.employeeStatus;
+
 
     const Employee = new Employeeform({ todaydate: todaydate, staffingmanager: staffingmanager, propertyname: propertyname, phone: phone, propertyaddress: propertyaddress, fax: fax, managementcompanyname: managementcompanyname, billingemailaddress: billingemailaddress, managernamewhoorderedtemp: managernamewhoorderedtemp, manageremailaddress: manageremailaddress, propertygrade: propertygrade, numberofunits: numberofunits, bilingual: bilingual, software: software, permanentpayrate: permanentpayrate, taxcredit: taxcredit, typeofassignment: typeofassignment, epacertified: epacertified, tempname: tempname, startdate: startdate, phoneno: phoneno, enddate: enddate, temporaraypayrate: temporaraypayrate, yourmessage: yourmessage, employeeStatus: "Active" })
 
 
+
     try {
         await Employee.save();
-        res.send("inserted data")
+        res.send(Employee)
+
     } catch (err) {
         console.log(err)
     }
 })
 
-// ROUTE 3.2: Get a new Employeeform using: GET "/api/empuserformd/read". Login required
+// ROUTE 2.2: Get a new Employeeform using: GET "/api/empuserforma/read". Login required
 router.get('/read', async (req, res) => {
 
     Employeeform.find({}, (err, result) => {
@@ -58,39 +61,22 @@ router.get('/read', async (req, res) => {
     })
 })
 
-// ROUTE 3.3: Update ACTIVE an Employeeform using: PUT "/api/empuserformd/updateactived/:id". Login required
-router.put('/updateactived/:id', async (req, res) => {
-    try {
+// ROUTE 2.3: Get a new Employeeform using: GET "/api/empuserforma/read". Login required
+router.get('/reads/:id', async (req, res) => {
 
-        // Find the code to be updated and update it
-        let employee = await Employeeform.findById(req.params.id);
-        if (!employee) { return res.status(404).send("Not Found") }
+    let employee = await Employeeform.findById(req.params.id);
 
-        employee = await Employeeform.findByIdAndUpdate(req.params.id, { employeeStatusDallas: "Active" }, { new: true })
-        res.json({ employee });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Internal Server Error");
-    }
+    if (!employee) { return res.status(404).send("Not Found") }
+
+    Employeeform.findById(employee, (err, result) => {
+        if (err) {
+            res.json({ employee });
+        }
+        res.send(result);
+    })
 })
 
-// ROUTE 3.4: Update CLOSED an Employeeform using: PUT "/api/empuserformd/updateclosedd/:id". Login required
-router.put('/updateclosedd/:id', async (req, res) => {
-    try {
-
-        // Find the code to be updated and update it
-        let employee = await Employeeform.findById(req.params.id);
-        if (!employee) { return res.status(404).send("Not Found") }
-
-        employee = await Employeeform.findByIdAndUpdate(req.params.id, { employeeStatusDallas: "Closed" }, { new: true })
-        res.json({ employee });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Internal Server Error");
-    }
-})
-
-// ROUTE 3.5: Find Active Status Count using: GET "/api/empuserformd/activecount".
+// ROUTE 2.4: Find Active Status Count using: GET "/api/empuserforma/activecount".
 router.get('/activecount', async (req, res) => {
 
     const totalActive = await Employeeform.find().or([{ employeeStatus: "Active" }]).countDocuments();
@@ -98,7 +84,7 @@ router.get('/activecount', async (req, res) => {
 
 })
 
-// ROUTE 3.6: Find Closed Status Count using: GET "/api/empuserformd/closedcount".
+// ROUTE 2.5: Find Closed Status Count using: GET "/api/empuserforma/closedcount".
 router.get('/closedcount', async (req, res) => {
 
     const totalClosed = await Employeeform.find().or([{ employeeStatus: "Closed" }]).countDocuments();
@@ -106,7 +92,7 @@ router.get('/closedcount', async (req, res) => {
 
 })
 
-// ROUTE 3.7: Find All Orders Count using: GET "/api/empuserformd/closedcount".
+// ROUTE 2.6: Find All Orders Count using: GET "/api/empuserforma/closedcount".
 router.get('/allordercount', async (req, res) => {
 
     const totalOrder = await Employeeform.find().or([{}]).countDocuments();
@@ -114,7 +100,7 @@ router.get('/allordercount', async (req, res) => {
 
 })
 
-// ROUTE 3.8: Find Active Orders Count using: GET "/api/empuserformd/activeorders".
+// ROUTE 2.7: Find Active Orders Count using: GET "/api/empuserforma/activeorders".
 router.get('/activeorders', async (req, res) => {
 
 
@@ -123,7 +109,7 @@ router.get('/activeorders', async (req, res) => {
 
 })
 
-// ROUTE 3.9: Find Closed Orders Count using: GET "/api/empuserformd/closedorders".
+// ROUTE 2.8: Find Closed Orders Count using: GET "/api/empuserforma/closedorders".
 router.get('/closedorders', async (req, res) => {
 
 
@@ -132,7 +118,39 @@ router.get('/closedorders', async (req, res) => {
 
 })
 
-// ROUTE 3.10: Delete a new Employeeform using: DELETE "/api/empuserformd/delete/:id".
+// ROUTE 2.9: Update ACTIVE an Employeeform using: PUT "/api/empuserforma/updateactiveh/:id". Login required
+router.put('/updateactiveh/:id', async (req, res) => {
+    try {
+
+        // Find the code to be updated and update it
+        let employee = await Employeeform.findById(req.params.id);
+        if (!employee) { return res.status(404).send("Not Found") }
+
+        employee = await Employeeform.findByIdAndUpdate(req.params.id, { employeeStatus: "Active" }, { new: true })
+        res.json({ employee });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
+// ROUTE 3.10: Update CLOSED an Employeeform using: PUT "/api/empuserforma/updateclosedh/:id". Login required
+router.put('/updateclosedh/:id', async (req, res) => {
+    try {
+
+        // Find the code to be updated and update it
+        let employee = await Employeeform.findById(req.params.id);
+        if (!employee) { return res.status(404).send("Not Found") }
+
+        employee = await Employeeform.findByIdAndUpdate(req.params.id, { employeeStatus: "Closed" }, { new: true })
+        res.json({ employee });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
+// ROUTE 3.11: Delete a new Employeeform using: DELETE "/api/empuserforma/delete/:id". Login required
 router.delete('/delete/:id', async (req, res) => {
 
     const id = req.params.id;
@@ -140,5 +158,6 @@ router.delete('/delete/:id', async (req, res) => {
     await Employeeform.findByIdAndRemove(id).exec();
     res.send(id);
 })
+
 
 module.exports = router

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const EmployeeformsSchema = new Schema({
+const EmployeeformsASchema = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
@@ -95,4 +95,4 @@ const EmployeeformsSchema = new Schema({
 
 });
 
-module.exports = mongoose.model('empuserformh', EmployeeformsSchema);
+module.exports = mongoose.model('empuserformark', EmployeeformsASchema);

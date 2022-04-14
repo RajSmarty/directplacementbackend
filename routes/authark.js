@@ -1,5 +1,5 @@
 const express = require('express');
-const User = require('../models/Userd');
+const User = require('../models/Usera');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
@@ -9,7 +9,7 @@ dotenv.config({ path: "./config.env" })
 
 const JWT_SECRET = process.env.scrtKey;
 
-// ROUTE 2.1: Create a User using: POST "/api/auth/signup". No login required
+// ROUTE 1: Create a User using: POST "/api/authark/signup". No login required
 router.post('/signup', async (req, res) => {
 
   // Check whether the user with this email exists already
@@ -24,10 +24,10 @@ router.post('/signup', async (req, res) => {
   user = await User.create({
     name: req.body.name,
     position: req.body.position,
-    place: "Dallas",
+    place: "Arkansas",
     email: req.body.email,
     phone: req.body.phone,
-    password: secPass
+    password: secPass,
   });
   const data = {
     user: {
@@ -35,12 +35,14 @@ router.post('/signup', async (req, res) => {
     }
   }
   const authtoken = jwt.sign(data, JWT_SECRET);
+
   res.json({ authtoken })
 })
 
 
-// ROUTE 2.2: Authenticate a User using: POST "/api/auth/login". No login required
+// ROUTE 2: Authenticate a User using: POST "/api/authark/login". No login required
 router.post('/login', async (req, res) => {
+
 
   const { email, password } = req.body;
   try {
@@ -69,8 +71,8 @@ router.post('/login', async (req, res) => {
 });
 
 
-// ROUTE 2.3: Get loggedin User Details using: POST "/api/auth/getuserd". Login required
-router.post('/getuserd', fetchuser, async (req, res) => {
+// ROUTE 3: Get loggedin User Details using: POST "/api/authark/getuser". Login required
+router.post('/getuser', fetchuser, async (req, res) => {
 
   try {
     userId = req.user.id;
@@ -83,8 +85,8 @@ router.post('/getuserd', fetchuser, async (req, res) => {
 })
 
 
-// ROUTE 2.4: Get Total Employees Details using: GET "/api/auth/getuser". Login required
-router.get('/totalemployeed', async (req, res) => {
+// ROUTE 4: Get Total Employees Details using: GET "/api/authark/totalemployeea". Login required
+router.get('/totalemployeea', async (req, res) => {
 
   try {
     const totalEmployees = await User.find({});
@@ -94,5 +96,6 @@ router.get('/totalemployeed', async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 })
+
 
 module.exports = router

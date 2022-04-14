@@ -2,14 +2,8 @@ const express = require('express');
 const router = express.Router();
 const fetchuser = require('../middleware/fetchuser');
 const Code = require('../models/Code');
-// const cloudinary = require('../utils/cloudinary');
-// const upload = require('../utils/multer');
 
-// var multer = require('multer')
-// const { upload, uploadImage } = require('../controller/imagecontroller');
-
-
-// ROUTE 1: Get All the Codes using: GET "/api/codes/getuser". Login required
+// ROUTE 1: Get All the Codes using: GET "/fetchallcodes". Login required
 router.get('/fetchallcodes', fetchuser, async (req, res) => {
     try {
         const codes = await Code.find({ user: req.user.id });
@@ -20,7 +14,7 @@ router.get('/fetchallcodes', fetchuser, async (req, res) => {
     }
 })
 
-// ROUTE 1: Get All the Codes using: GET "/api/codes/getuser". Login required
+// ROUTE 2: Get All the Codes using: GET "/fetchallactivecodes". Login required
 router.get('/fetchallactivecodes', fetchuser, async (req, res) => {
     try {
         const codes = await Code.find({ user: req.user.id });
@@ -39,14 +33,14 @@ router.get('/fetchallactivecodes', fetchuser, async (req, res) => {
     }
 })
 
-// ROUTE 2: Add a new Code using: POST "/api/codes/addcode". Login required
+// ROUTE 3: Add a new Code using: POST "/addcode". Login required
 router.post('/addcode', fetchuser, async (req, res) => {
     try {
-        const { name, staffingmanager, selectposition, hourlybillingrate, companyname, phone, companyaddress, fax, managernamewhoorderedtemp, manageremailaddress, propertygrade, numberofunits, bilingual, software, permanentpayrate, taxcredit, typeofassignment, epacertified, tempname, startdate, phoneno, enddate, temporaraypayrate, yourmessage, status } = req.body;
+        const { todaydate, staffingmanager, selectposition, hourlybillingrate, propertyname, phone, propertyaddress, fax, managementcompanyname, billingemailaddress, managernamewhoorderedtemp, manageremailaddress, propertygrade, numberofunits, bilingual, software, permanentpayrate, taxcredit, typeofassignment, epacertified, tempname, startdate, phoneno, enddate, temporaraypayrate, yourmessage, status } = req.body;
 
 
         const code = new Code({
-            name, staffingmanager, selectposition, hourlybillingrate, companyname, phone, companyaddress, fax, managernamewhoorderedtemp, manageremailaddress, propertygrade, numberofunits, bilingual, software, permanentpayrate, taxcredit, typeofassignment, epacertified, tempname, startdate, phoneno, enddate, temporaraypayrate, yourmessage, status, user: req.user.id
+            todaydate, staffingmanager, selectposition, hourlybillingrate, propertyname, phone, propertyaddress, fax, managementcompanyname, billingemailaddress, managernamewhoorderedtemp, manageremailaddress, propertygrade, numberofunits, bilingual, software, permanentpayrate, taxcredit, typeofassignment, epacertified, tempname, startdate, phoneno, enddate, temporaraypayrate, yourmessage, status, user: req.user.id
         })
         const savedCode = await code.save()
 
@@ -58,13 +52,7 @@ router.post('/addcode', fetchuser, async (req, res) => {
     }
 })
 
-
-
-
-
-
-
-// ROUTE 3: Update an existing Code using: PUT "/api/codes/updatecode". Login required
+// ROUTE 4: Update an existing Code using: PUT "/updatecode/:id". Login required
 router.put('/updatecode/:id', fetchuser, async (req, res) => {
     const { title, description, tag } = req.body;
     try {
@@ -89,7 +77,7 @@ router.put('/updatecode/:id', fetchuser, async (req, res) => {
     }
 })
 
-// ROUTE 4: Delete an existing Code using: DELETE "/api/codes/deletecode". Login required
+// ROUTE 5: Delete an existing Code using: DELETE "/deletecode/:id". Login required
 router.delete('/deletecode/:id', fetchuser, async (req, res) => {
     try {
         // Find the code to be delete and delete it
@@ -109,8 +97,7 @@ router.delete('/deletecode/:id', fetchuser, async (req, res) => {
     }
 })
 
-
-// Update Active 
+// ROUTE 6: Update Active using: PUT "/updateactive/:id".
 router.put('/updateactive/:id', async (req, res) => {
     try {
 
@@ -126,7 +113,7 @@ router.put('/updateactive/:id', async (req, res) => {
     }
 })
 
-// Update Close 
+// ROUTE 7: Update Close using: PUT "/updateclosed/:id".
 router.put('/updateclosed/:id', async (req, res) => {
     try {
 
@@ -142,50 +129,46 @@ router.put('/updateclosed/:id', async (req, res) => {
     }
 });
 
-
-
-// ROUTE 2.4: Find Active Status Count using: GET "/api/empuserformh/activecount".
+// ROUTE 8: Find Active Status Count using: GET "/activecount". Login required
 router.get('/activecount', fetchuser, async (req, res) => {
 
     const codes = await Code.find({ user: req.user.id });
 
 
-    const totalActive = await Code.find().or([{user: req.user.id, status: "Active" }]).countDocuments();
+    const totalActive = await Code.find().or([{ user: req.user.id, status: "Active" }]).countDocuments();
     res.status(200).json(totalActive)
 
 })
 
-// ROUTE 2.4: Find Active Orders Count using: GET "/api/empuserformh/activelist".
+// ROUTE 9: Find Active Orders Count using: GET "/activelist". Login required
 router.get('/activelist', fetchuser, async (req, res) => {
 
     const codes = await Code.find({ user: req.user.id });
 
-    const totalActive = await Code.find().or([{user: req.user.id, status: "Active" }])
+    const totalActive = await Code.find().or([{ user: req.user.id, status: "Active" }])
     res.status(200).json(totalActive)
 
 })
 
-// ROUTE 2.4: Find Closed Orders Count using: GET "/api/empuserformh/closedlist".
+// ROUTE 10: Find Closed Orders Count using: GET "/closedlist". Login required
 router.get('/closedlist', fetchuser, async (req, res) => {
 
     const codes = await Code.find({ user: req.user.id });
 
-    const totalActive = await Code.find().or([{user: req.user.id, status: "Closed" }])
+    const totalActive = await Code.find().or([{ user: req.user.id, status: "Closed" }])
     res.status(200).json(totalActive)
 
 })
 
-
-// ROUTE 2.6: Find All Orders Count using: GET "/api/empuserformh/closedcount".
+// ROUTE 11: Find All Orders Count using: GET "/allordercount". Login required
 router.get('/allordercount', fetchuser, async (req, res) => {
 
     const codes = await Code.find({ user: req.user.id });
 
 
-    const totalOrder = await Code.find().or([{user: req.user.id}]).countDocuments();
+    const totalOrder = await Code.find().or([{ user: req.user.id }]).countDocuments();
     res.status(200).json(totalOrder)
 
 })
-
 
 module.exports = router

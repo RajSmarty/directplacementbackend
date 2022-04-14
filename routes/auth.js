@@ -5,18 +5,13 @@ const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 var fetchuser = require('../middleware/fetchuser');
 const dotenv = require("dotenv")
-// const multer = require('multer')
-
-
 dotenv.config({ path: "./config.env" })
 
 const JWT_SECRET = process.env.scrtKey;
 
 // ROUTE 1: Create a User using: POST "/signup". No login required
 router.post('/signup', async (req, res) => {
-  // let success = false;
 
-  // try {
   // Check whether the user with this email exists already
   let user = await User.findOne({ email: req.body.email });
   if (user) {
@@ -29,10 +24,10 @@ router.post('/signup', async (req, res) => {
   user = await User.create({
     name: req.body.name,
     position: req.body.position,
+    place: "Houston",
     email: req.body.email,
     phone: req.body.phone,
     password: secPass,
-    pic: req.body.pic
   });
   const data = {
     user: {
@@ -41,15 +36,7 @@ router.post('/signup', async (req, res) => {
   }
   const authtoken = jwt.sign(data, JWT_SECRET);
 
-
-  // res.json(user)
-
   res.json({ authtoken })
-
-  // } catch (error) {
-  //   console.error(error.message);
-  //   res.status(500).send("Internal Server Error");
-  // }
 })
 
 
@@ -75,15 +62,12 @@ router.post('/login', async (req, res) => {
       }
     }
     const authtoken = jwt.sign(data, JWT_SECRET);
-    // success = true;
     res.json({ authtoken })
 
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Internal Server Error");
   }
-
-
 });
 
 
@@ -101,29 +85,17 @@ router.post('/getuser', fetchuser, async (req, res) => {
 })
 
 
+// ROUTE 4: Get Total Employees Details using: GET "/getuser". Login required
+router.get('/totalemployeeh', async (req, res) => {
 
-// ROUTE 3: Update an existing Code using: PUT "/updatename". Login required
-router.put('/updatename/:id', fetchuser, async (req, res) => {
-  const { name } = req.body;
   try {
-    // Create a newCode object
-    const newName = {};
-    if (name) { newName.name = name };
-
-
-    // Find the code to be updated and update it
-    let newname = await User.findById(req.params.id);
-    if (!newname) { return res.status(404).send("Not Found") }
-
-    // if (newname.user.toString() !== req.user.id) {
-    //     return res.status(401).send("Not Allowed");
-    // }
-    newname = await User.findByIdAndUpdate(req.params.id, { $set: newName }, { new: true })
-    res.json({ newname });
+    const totalEmployees = await User.find({});
+    res.json(totalEmployees)
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Internal Server Error");
   }
 })
+
 
 module.exports = router

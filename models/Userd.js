@@ -9,6 +9,9 @@ const UserDSchema = new Schema({
     position: {
         type: String,
     },
+    place: {
+        type: String,
+    },
     email: {
         type: String,
         required: true,
