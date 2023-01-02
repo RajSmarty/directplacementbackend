@@ -36,7 +36,7 @@ router.post('/insert', async (req, res) => {
     // const empTempNameDallas = req.body.empTempNameDallas;
     const employeeStatus = req.body.employeeStatus;
 
-    const Employee = new Employeeform({ todaydate: todaydate, staffingmanager: staffingmanager, propertyname: propertyname, phone: phone, propertyaddress: propertyaddress, fax: fax, managementcompanyname: managementcompanyname, billingemailaddress: billingemailaddress, managernamewhoorderedtemp: managernamewhoorderedtemp, manageremailaddress: manageremailaddress, propertygrade: propertygrade, numberofunits: numberofunits, bilingual: bilingual, software: software, permanentpayrate: permanentpayrate, taxcredit: taxcredit, typeofassignment: typeofassignment, epacertified: epacertified, tempname: tempname, startdate: startdate, phoneno: phoneno, enddate: enddate, temporaraypayrate: temporaraypayrate, yourmessage: yourmessage, employeeStatus: "Active" })
+    const Employee = new Employeeform({ todaydate: todaydate, staffingmanager: staffingmanager, hourlybillingrate:hourlybillingrate, propertyname: propertyname, phone: phone, propertyaddress: propertyaddress, fax: fax, managementcompanyname: managementcompanyname, billingemailaddress: billingemailaddress, managernamewhoorderedtemp: managernamewhoorderedtemp, manageremailaddress: manageremailaddress, propertygrade: propertygrade, numberofunits: numberofunits, bilingual: bilingual, software: software, permanentpayrate: permanentpayrate, taxcredit: taxcredit, typeofassignment: typeofassignment, epacertified: epacertified, tempname: tempname, startdate: startdate, phoneno: phoneno, enddate: enddate, temporaraypayrate: temporaraypayrate, yourmessage: yourmessage, employeeStatus: "Active" })
 
 
     try {
@@ -66,7 +66,7 @@ router.put('/updateactived/:id', async (req, res) => {
         let employee = await Employeeform.findById(req.params.id);
         if (!employee) { return res.status(404).send("Not Found") }
 
-        employee = await Employeeform.findByIdAndUpdate(req.params.id, { employeeStatusDallas: "Active" }, { new: true })
+        employee = await Employeeform.findByIdAndUpdate(req.params.id, { employeeStatus: "Active" }, { new: true })
         res.json({ employee });
     } catch (error) {
         console.error(error.message);
@@ -82,7 +82,7 @@ router.put('/updateclosedd/:id', async (req, res) => {
         let employee = await Employeeform.findById(req.params.id);
         if (!employee) { return res.status(404).send("Not Found") }
 
-        employee = await Employeeform.findByIdAndUpdate(req.params.id, { employeeStatusDallas: "Closed" }, { new: true })
+        employee = await Employeeform.findByIdAndUpdate(req.params.id, { employeeStatus: "Closed" }, { new: true })
         res.json({ employee });
     } catch (error) {
         console.error(error.message);

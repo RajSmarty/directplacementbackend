@@ -37,7 +37,7 @@ router.post('/insert', async (req, res) => {
     const employeeStatus = req.body.employeeStatus;
 
 
-    const Employee = new Employeeform({ todaydate: todaydate, staffingmanager: staffingmanager, propertyname: propertyname, phone: phone, propertyaddress: propertyaddress, fax: fax, managementcompanyname: managementcompanyname, billingemailaddress: billingemailaddress, managernamewhoorderedtemp: managernamewhoorderedtemp, manageremailaddress: manageremailaddress, propertygrade: propertygrade, numberofunits: numberofunits, bilingual: bilingual, software: software, permanentpayrate: permanentpayrate, taxcredit: taxcredit, typeofassignment: typeofassignment, epacertified: epacertified, tempname: tempname, startdate: startdate, phoneno: phoneno, enddate: enddate, temporaraypayrate: temporaraypayrate, yourmessage: yourmessage, employeeStatus: "Active" })
+    const Employee = new Employeeform({ todaydate: todaydate, staffingmanager: staffingmanager, hourlybillingrate:hourlybillingrate, propertyname: propertyname, phone: phone, propertyaddress: propertyaddress, fax: fax, managementcompanyname: managementcompanyname, billingemailaddress: billingemailaddress, managernamewhoorderedtemp: managernamewhoorderedtemp, manageremailaddress: manageremailaddress, propertygrade: propertygrade, numberofunits: numberofunits, bilingual: bilingual, software: software, permanentpayrate: permanentpayrate, taxcredit: taxcredit, typeofassignment: typeofassignment, epacertified: epacertified, tempname: tempname, startdate: startdate, phoneno: phoneno, enddate: enddate, temporaraypayrate: temporaraypayrate, yourmessage: yourmessage, employeeStatus: "Active" })
 
 
 
@@ -118,8 +118,8 @@ router.get('/closedorders', async (req, res) => {
 
 })
 
-// ROUTE 2.9: Update ACTIVE an Employeeform using: PUT "/api/empuserforma/updateactiveh/:id". Login required
-router.put('/updateactiveh/:id', async (req, res) => {
+// ROUTE 2.9: Update ACTIVE an Employeeform using: PUT "/api/empuserforma/updateactivea/:id". Login required
+router.put('/updateactivea/:id', async (req, res) => {
     try {
 
         // Find the code to be updated and update it
@@ -134,8 +134,8 @@ router.put('/updateactiveh/:id', async (req, res) => {
     }
 })
 
-// ROUTE 3.10: Update CLOSED an Employeeform using: PUT "/api/empuserforma/updateclosedh/:id". Login required
-router.put('/updateclosedh/:id', async (req, res) => {
+// ROUTE 3.10: Update CLOSED an Employeeform using: PUT "/api/empuserforma/updatecloseda/:id". Login required
+router.put('/updatecloseda/:id', async (req, res) => {
     try {
 
         // Find the code to be updated and update it

@@ -3,6 +3,10 @@ const express = require('express')
 let cors = require('cors')
 const mongoose = require('mongoose');
 
+const userRoutes = require("./routes/users");
+const authRoutes = require("./routes/newadminauth");
+const passwordResetRoutes = require("./routes/passwordReset");
+
 // connectToMongo();
 const app = express()
 const port = process.env.PORT || 5000;
@@ -29,6 +33,9 @@ app.use("/api/empuserformd", require('./routes/empuserformd'))
 app.use("/api/empuserforma", require('./routes/empuserformark'))
 app.use('/api/items', require('./routes/items'))
 
+app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/password-reset", passwordResetRoutes);
 
 app.get("/", (req, res) => {
   res.json("Backend running...")

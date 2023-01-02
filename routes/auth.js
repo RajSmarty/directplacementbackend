@@ -97,5 +97,15 @@ router.get('/totalemployeeh', async (req, res) => {
   }
 })
 
+// ROUTE 5: Delete Particular Employee using: DELETE "/delete". Login required
+router.delete('/delete/:id', async (req, res) => {
+
+  const id = req.params.id;
+
+  const totalEmployees = await User.findByIdAndRemove(id).exec();
+  // res.json(totalEmployees)
+  res.status(200).send("Employee Deleted");
+})
+
 
 module.exports = router
